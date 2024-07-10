@@ -69,3 +69,14 @@ export const signup = async (req, res) => {
     res.status(500).json({ message: "Invalid Server Error" });
   }
 };
+export const logout = (req, res) => {
+  try{
+    res.cookie("jwt","",{maxAge:0})
+    res.status(200).json({message:"Logout Successfull"})
+  
+  }catch(error){
+    console.log("Error in Logout Cotroller", error.message);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+  };
+  

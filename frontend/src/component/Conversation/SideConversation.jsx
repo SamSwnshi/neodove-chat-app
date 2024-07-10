@@ -9,13 +9,13 @@ const SideConversation = ({ conversation }) => {
   // const isOnline = onlineUsers.includes(conversation._id);
   return (
     <div
-        className={`flex gap-2 items-center hover:bg-orange-700 rounded p-2 py-1 cursor-pointer
-        ${isSelected ? "bg-orange-900" : ""}
+        className={`flex gap-2 items-center hover:bg-indigo-300 rounded p-2 py-1 cursor-pointer
+        ${isSelected ? "bg-blue-400" : ""}
       `}
       onClick={()=>setSelectedConversation(conversation)}
       >
       <div className="flex flex-col flex-1 p-2 border-b border-gray-300">
-        <div className="flex gap-2 justify-between">
+        <div className="mb-2 text-centerflex gap-2 justify-between">
           <p className="font-medium text-white">{conversation.username}</p>
         </div>
       </div>

@@ -1,14 +1,22 @@
 import Message from "../models/message.models.js";
 import Conversation from "../models/conversation.models.js"
+import User from "../models/user.models.js";
 
 export const getMessage = async (req, res) => {
     try{
         const {id: userToChatId} = req.params;
         const senderId = req.user._id;
+
+
     
         const conversation = await Conversation.findOne({
           participants: { $all: [senderId, userToChatId] },
-        }).populate("message")
+        }).populate({path:"message",
+          populate: [
+            { path: "senderId", select: "username" },
+            { path: "receiverId", select: "username" }
+        ] 
+        })
     
         if(!conversation){
           return res.status(200).json([])
@@ -27,6 +35,11 @@ export const sendMessage = async(req,res)=>{
         const { id: receiverId } = req.params;
         const senderId = req.user._id;
     
+      const senderName = await User.findById(senderId);
+      if(!senderName){
+        return res.status(404).json({ message: "Sender not found" });
+      }
+
         let conversation = await Conversation.findOne({
           participants: { $all: [senderId, receiverId] },
         });
@@ -38,6 +51,7 @@ export const sendMessage = async(req,res)=>{
         }
     
         const newMessage = new Message({
+          username: senderName.username,
             senderId,
             receiverId,
             message,
