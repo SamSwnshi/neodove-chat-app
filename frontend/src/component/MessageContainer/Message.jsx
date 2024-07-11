@@ -2,12 +2,12 @@
 import React, { useEffect, useRef } from "react";
 import MessageData from "./MessageData";
 import useMessage from "../../hooks/useMessage";
-
-
+import useListenMessage from "../../hooks/useListenMessage";
 
 const Message = () => {
   const { messages, loading } = useMessage();
-console.log(messages)
+  useListenMessage();
+ 
   const lastMessageRef = useRef();
   useEffect(() => {
     setTimeout(() => {
@@ -23,9 +23,11 @@ console.log(messages)
             <MessageData message={message} />
           </div>
         ))}
-      
+
       {!loading && messages.length === 0 && (
-        <p className="text-center text-white">Send Message to start a conversation</p>
+        <p className="text-center text-white">
+          Send Message to start a conversation
+        </p>
       )}
     </div>
   );
